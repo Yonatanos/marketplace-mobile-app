@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e72f3278-6a56-4db5-ac97-d5a36dd109e7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/SharedComponents.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/ui/Layout.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/constants/checkoutErrors.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/cart/components/CartItem.styled.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/cart/store/cartSaga.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/cart/store/cartSelectors.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/products/components/ProductCard.styled.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/products/components/ProductCard.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/products/screens/ProductDetailsScreen.styled.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/products/screens/ProductDetailsScreen.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/products/screens/ProductsScreen.styled.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/products/screens/ProductsScreen.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/rootReducer.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/rootSaga.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/app.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eslint.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/eslint.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/mockApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/mockApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/cart/components/CartItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/cart/components/CartItem.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/cart/screens/CartScreen.styled.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/cart/screens/CartScreen.styled.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/cart/screens/CartScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/cart/screens/CartScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/cart/store/cartSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/cart/store/cartSlice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useDebounce.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useDebounce.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/navigation/RootNavigator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/RootNavigator.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/store.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="37J7W5LB2UCOA3rDjZF8QzVOkWG" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/jonatan.mandelman/yona/MarketplaceApp",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "/Users/jonatan.mandelman/yona/MarketplaceApp/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SwiftWorkspaceSettings">
+    <option name="detectedToolchain" value="true" />
+    <option name="toolchainPathValue" value="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e72f3278-6a56-4db5-ac97-d5a36dd109e7" name="Changes" comment="" />
+      <created>1766609349003</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1766609349003</updated>
+      <workItem from="1766609350129" duration="1038000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
