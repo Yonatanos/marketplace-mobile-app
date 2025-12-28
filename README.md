@@ -4,14 +4,28 @@ A React Native application built with Expo, featuring product browsing, search, 
 
 ## 🚀 Installation & Setup
 
-### 1. Install Dependencies
+בשביל לעשות clone צריך את כל זה?
+
+# Marketplace Mobile App
+
+A React Native application built with Expo, featuring product browsing, search, and cart management with stock validation.
+
+## 🚀 Installation & Setup
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/Yonatanos/marketplace-mobile-app.git
+cd marketplace-mobile-app
+```
+
+### 2. Install Dependencies
 ```bash
 npm install
 ```
 
 Note: If you encounter dependency issues, use npm install --legacy-peer-deps
 
-### 2. Start the Application
+### 3. Start the Application
 
 ```bash
 npx expo start
