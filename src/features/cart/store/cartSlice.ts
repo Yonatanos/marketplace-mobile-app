@@ -1,49 +1,61 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createEntityAdapter } from '@reduxjs/toolkit';
 import { Product } from '@/types/product';
 
 export interface CartItem {
+  id: number;
   product: Product;
   quantity: number;
 }
 
+// Create entity adapter for normalized cart state with O(1) lookups
+const cartAdapter = createEntityAdapter<CartItem>();
+
 interface CartState {
-  items: CartItem[];
   isCheckingOut: boolean;
   checkoutError: string | null;
 }
 
-const initialState: CartState = {
-  items: [],
+const initialState = cartAdapter.getInitialState<CartState>({
   isCheckingOut: false,
   checkoutError: null,
-};
+});
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
     addToCart: (state, action: PayloadAction<Product>) => {
-      const existingItem = state.items.find((item) => item.product.id === action.payload.id);
+      const existingItem = state.entities[action.payload.id];
 
       if (existingItem) {
         if (existingItem.quantity < action.payload.stock) {
-          existingItem.quantity += 1;
+          cartAdapter.updateOne(state, {
+            id: action.payload.id,
+            changes: { quantity: existingItem.quantity + 1 },
+          });
         }
       } else {
         if (action.payload.stock > 0) {
-          state.items.push({ product: action.payload, quantity: 1 });
+          cartAdapter.addOne(state, {
+            id: action.payload.id,
+            product: action.payload,
+            quantity: 1,
+          });
         }
       }
     },
     updateQuantity: (state, action: PayloadAction<{ id: number; quantity: number }>) => {
-      const item = state.items.find((item) => item.product.id === action.payload.id);
+      const item = state.entities[action.payload.id];
 
       if (item && action.payload.quantity > 0 && action.payload.quantity <= item.product.stock) {
-        item.quantity = action.payload.quantity;
+        cartAdapter.updateOne(state, {
+          id: action.payload.id,
+          changes: { quantity: action.payload.quantity },
+        });
       }
     },
     removeFromCart: (state, action: PayloadAction<number>) => {
-      state.items = state.items.filter((item) => item.product.id !== action.payload);
+      cartAdapter.removeOne(state, action.payload);
     },
     checkoutRequest: (state) => {
       state.isCheckingOut = true;
@@ -52,14 +64,14 @@ const cartSlice = createSlice({
     checkoutSuccess: (state) => {
       state.isCheckingOut = false;
       state.checkoutError = null;
-      state.items = [];
+      cartAdapter.removeAll(state);
     },
     checkoutFailure: (state, action: PayloadAction<string>) => {
       state.isCheckingOut = false;
       state.checkoutError = action.payload;
     },
     clearCart: (state) => {
-      state.items = [];
+      cartAdapter.removeAll(state);
     },
   },
 });
@@ -75,3 +87,6 @@ export const {
 } = cartSlice.actions;
 
 export const cartReducer = cartSlice.reducer;
+
+// Export adapter for use in selectors
+export { cartAdapter };

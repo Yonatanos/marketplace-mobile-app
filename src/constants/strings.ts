@@ -11,6 +11,7 @@ export const STRINGS = {
   product: {
     inStock: 'In Stock',
     outOfStock: 'Out of Stock',
+    maxQuantityInCart: 'Maximum in Cart',
     rating: 'Rating',
     reviews: 'reviews',
     addToCart: 'Add to Cart',
@@ -20,6 +21,9 @@ export const STRINGS = {
     price: 'Price',
     loadingProducts: 'Loading products...',
     noProductsFound: 'No products found',
+    defaultCategory: 'General',
+    defaultTitle: 'Unknown Product',
+    defaultShippingInformation: 'Standard shipping',
   },
   
   cart: {

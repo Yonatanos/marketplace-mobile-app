@@ -27,6 +27,7 @@ module.exports = [
     plugins: {
       '@typescript-eslint': tseslint,
       'react-hooks': require('eslint-plugin-react-hooks'),
+      'unused-imports': require('eslint-plugin-unused-imports'),
     },
     rules: {
       // React Hooks - Essential for React apps
@@ -35,7 +36,9 @@ module.exports = [
 
       // TypeScript - Essential rules
       'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': [
+      '@typescript-eslint/no-unused-vars': 'off', // Handled by unused-imports
+      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-vars': [
         'warn',
         {
           argsIgnorePattern: '^_',

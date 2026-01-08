@@ -1,11 +1,16 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createEntityAdapter } from '@reduxjs/toolkit';
 import { Product } from '@/types/product';
 import { FetchProductsParams } from '@/types/api';
 import { STRINGS } from '@/constants/strings';
 import { CATEGORIES, SORT_ORDER, SortOrder } from '@/constants/config';
 
+const productsAdapter = createEntityAdapter<Product>({
+  selectId: (product) => product.id,
+  // Note: Sorting is handled by API (mockApi.ts) based on user's sortOrder
+  // This keeps IDs in insertion order for pagination
+});
+
 interface ProductsState {
-  items: Product[];
   isProductsLoading: boolean;
   error: string | null;
   page: number;
@@ -17,8 +22,7 @@ interface ProductsState {
   isCategoriesLoading: boolean;
 }
 
-const initialState: ProductsState = {
-  items: [],
+const initialState = productsAdapter.getInitialState<ProductsState>({
   isProductsLoading: false,
   error: null,
   page: 1,
@@ -28,7 +32,7 @@ const initialState: ProductsState = {
   sortOrder: SORT_ORDER.ASC,
   categories: [],
   isCategoriesLoading: false,
-};
+});
 
 const productsSlice = createSlice({
   name: 'products',
@@ -43,12 +47,11 @@ const productsSlice = createSlice({
       state.isProductsLoading = false;
 
       if (state.page === 1) {
-        state.items = action.payload.products;
+        // Replace all products for first page
+        productsAdapter.setAll(state, action.payload.products);
       } else {
-        const existingIds = new Set(state.items.map((p) => p.id));
-        const newProducts = action.payload.products.filter((p) => !existingIds.has(p.id));
-
-        state.items = [...state.items, ...newProducts];
+        // Add new products for pagination (adapter auto-handles duplicates)
+        productsAdapter.addMany(state, action.payload.products);
       }
 
       state.hasMore = action.payload.hasMore;
@@ -110,3 +113,6 @@ export const {
 } = productsSlice.actions;
 
 export const productsReducer = productsSlice.reducer;
+
+// Export adapter for use in selectors
+export { productsAdapter };

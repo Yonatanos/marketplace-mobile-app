@@ -24,8 +24,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export const CartScreen = () => {
   const dispatch = useDispatch();
-  const items = useSelector(selectCartItems);
-  const totalAmount = useSelector(selectCartTotalAmount);
+  const items = useSelector(selectCartItems) ?? []; 
+  const totalAmount = useSelector(selectCartTotalAmount) ?? 0; 
   const isCheckingOut = useSelector(selectIsCheckingOut);
   const insets = useSafeAreaInsets();
 

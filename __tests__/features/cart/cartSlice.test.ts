@@ -2,9 +2,12 @@ import {
   cartReducer, 
   addToCart, 
   removeFromCart, 
-  checkoutSuccess 
+  checkoutSuccess,
+  cartAdapter,
+  CartItem
 } from '../../../src/features/cart/store/cartSlice';
 import { Product } from '../../../src/types/product';
+import { EntityState } from '@reduxjs/toolkit';
 
 describe('Cart Business Logic', () => {
   const mockProduct: Product = {
@@ -21,11 +24,14 @@ describe('Cart Business Logic', () => {
       shippingInformation: '1 month'
   };
 
-  const initialState = {
-    items: [],
+  // Use adapter's initial state
+  const initialState = cartAdapter.getInitialState({
     isCheckingOut: false,
     checkoutError: null,
-  };
+  });
+
+  // Helper to get all items as array with proper typing
+  const getItems = (state: EntityState<CartItem, number>) => cartAdapter.getSelectors().selectAll(state);
 
   it('should prevent adding more items than available in stock', () => {
     let state = cartReducer(initialState, addToCart(mockProduct));
@@ -34,17 +40,19 @@ describe('Cart Business Logic', () => {
     // Third attempt should be blocked by logic
     state = cartReducer(state, addToCart(mockProduct));
 
-    expect(state.items[0].quantity).toBe(2);
+    const items = getItems(state);
+
+    expect(items[0].quantity).toBe(2);
   });
 
   it('should remove item from cart completely', () => {
     let state = cartReducer(initialState, addToCart(mockProduct));
 
-    expect(state.items).toHaveLength(1);
+    expect(state.ids).toHaveLength(1);
 
     state = cartReducer(state, removeFromCart(mockProduct.id));
     
-    expect(state.items).toHaveLength(0);
+    expect(state.ids).toHaveLength(0);
   });
 
   it('should calculate total amount correctly', () => {
@@ -53,21 +61,27 @@ describe('Cart Business Logic', () => {
 
     state = cartReducer(state, addToCart(anotherProduct));
 
-    const total = state.items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+    const items = getItems(state);
+    const total = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
 
     expect(total).toBe(1050);
   });
 
   it('should clear cart and reset checking out status on success', () => {
-    const stateWithItems = { 
-      items: [{ product: mockProduct, quantity: 1 }],
+    // Create state with items using the adapter
+    let stateWithItems = cartAdapter.getInitialState({
       isCheckingOut: true,
-      checkoutError: 'previous error' 
-    };
+      checkoutError: 'previous error' as string | null,
+    });
+
+    stateWithItems = cartAdapter.addOne(stateWithItems, { 
+      product: mockProduct, 
+      quantity: 1 
+    });
     
     const newState = cartReducer(stateWithItems, checkoutSuccess());
     
-    expect(newState.items).toHaveLength(0);
+    expect(newState.ids).toHaveLength(0);
     expect(newState.isCheckingOut).toBe(false);
     expect(newState.checkoutError).toBeNull();
   });

@@ -3,8 +3,11 @@ import productsData from '@/data/products.json';
 import { STRINGS } from '@/constants/strings';
 import { CATEGORIES, SORT_ORDER, SortOrder } from '@/constants/config';
 import orderBy from 'lodash-es/orderBy';
+import isArray from 'lodash-es/isArray';
 import { delay } from '@/utils/async';
 import { logger } from '@/utils/logger';
+import uniq from 'lodash-es/uniq';
+import map from 'lodash-es/map';
 
 export const fetchProducts = async ({
   page,
@@ -24,7 +27,7 @@ export const fetchProducts = async ({
 
     const rawProducts = productsData?.products;
 
-    if (!Array.isArray(rawProducts)) {
+    if (!isArray(rawProducts)) {
       throw new Error('Data format error: products array is missing');
     }
 
@@ -53,18 +56,18 @@ export const fetchProducts = async ({
     const start = (safePage - 1) * limit;
     const end = start + limit;
 
-    const paginatedItems: Product[] = filteredData.slice(start, end).map(
+    const paginatedItems: Product[] = filteredData.map(
       (item): Product => ({
         id: item?.id ?? Math.random(),
-        title: item?.title ?? 'Unknown Product',
-        description: item?.description ?? '',
-        category: item?.category ?? 'General',
+        title: item?.title ?? STRINGS.product.defaultTitle,
+        description: item?.description ?? STRINGS.common.empty,
+        category: item?.category ?? STRINGS.product.defaultCategory,
         price: item?.price ?? 0,
         rating: item?.rating ?? 0,
         stock: item?.stock ?? 0,
-        thumbnail: item?.thumbnail ?? '',
-        shippingInformation: item?.shippingInformation ?? 'Standard shipping',
-        reviews: Array.isArray(item?.reviews) ? item.reviews.map((review) => review?.comment ?? '') : [],
+        thumbnail: item?.thumbnail ??  STRINGS.common.empty,
+        shippingInformation: item?.shippingInformation ?? STRINGS.product.defaultShippingInformation,
+        reviews: isArray(item?.reviews) ? item.reviews.map((review) => review?.comment ?? STRINGS.common.empty) : [],
         ratingCount: item?.reviews?.length ?? 0,
       }),
     );
@@ -82,8 +85,7 @@ export const fetchProducts = async ({
 
 export const fetchCategories = async (): Promise<string[]> => {
   await delay(300);
-
-  const categories = productsData.products.map((p) => p.category);
+  const categories = uniq(map(productsData.products, 'category')); 
 
   return [CATEGORIES.ALL, ...Array.from(new Set(categories))];
 };

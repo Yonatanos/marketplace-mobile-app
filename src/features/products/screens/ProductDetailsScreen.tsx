@@ -4,6 +4,7 @@ import { RootState } from '@/store/types';
 import { RootStackParamList } from '@/types/navigation';
 import { addToCart } from '@/features/cart/store/cartSlice';
 import { selectProductById } from '@/features/products/store/productsSelectors';
+import { selectCartItemQuantity } from '@/features/cart/store/cartSelectors';
 import { STRINGS } from '@/constants/strings';
 import { ICONS } from '@/constants/icons';
 import { SafeScreen } from '@/components/SharedComponents';
@@ -32,47 +33,72 @@ import {
 
 export const ProductDetailsScreen = () => {
   const route = useRoute<RouteProp<RootStackParamList, typeof SCREEN_NAMES.PRODUCT_DETAILS>>();
-  const { productId } = route.params;
   const dispatch = useDispatch();
-  const product = useSelector((state: RootState) => selectProductById(state, productId));
-  const stock = product?.stock ?? 0;
-  const isOutOfStock = stock === 0;
+  
+  // Guard against undefined route params - get productId safely
+  const productId = route?.params?.productId;
+  
+  const product = useSelector((state: RootState) => 
+    productId ? selectProductById(state, productId) : undefined
+  );
+  
+  // Check cart quantity for this product
+  const cartQuantity = useSelector((state: RootState) =>
+    productId ? selectCartItemQuantity(state, productId) : 0
+  );
+  
+  // Early return if productId or product not found
+  if (!productId || !product) {
+    return null;
+  }
 
-  if (!product) return null;
+  const stock = product.stock ?? 0;
+  const isOutOfStock = stock === 0;
+  const isMaxQuantityReached = cartQuantity >= stock;
+  const isButtonDisabled = isOutOfStock || isMaxQuantityReached;
+
+  // Determine button text based on state
+  const getButtonText = () => {
+    if (isOutOfStock) return STRINGS.product.outOfStock;
+
+    if (isMaxQuantityReached) return STRINGS.product.maxQuantityInCart;
+
+    return STRINGS.product.addToCart;
+  };
 
   return (
     <SafeScreen backgroundColor={COLORS.white}>
       <ScrollContainer>
-        <Image source={{ uri: product?.thumbnail }} resizeMode="cover" />
+        <Image source={{ uri: product.thumbnail }} resizeMode="cover" />
 
         <Content>
-          <Title>{product?.title ?? STRINGS.common.unavailable}</Title>
+          <Title>{product.title}</Title>
 
           <RatingRow>
-            <StarText>⭐ {product?.rating ?? 0}</StarText>
+            <StarText>⭐ {product.rating}</StarText>
             <RatingInfo> | {STRINGS.product.stock}: {stock} {STRINGS.product.units}</RatingInfo>
           </RatingRow>
 
-          <Price>${(product?.price ?? 0).toFixed(2)}</Price>
+          <Price>${product.price.toFixed(2)}</Price>
 
           <InfoTagRow>
             <InfoTag>
-              <TagText>{ICONS.shipping} {product?.shippingInformation ?? STRINGS.common.unavailable}</TagText>
+              <TagText>{ICONS.shipping} {product.shippingInformation}</TagText>
             </InfoTag>
           </InfoTagRow>
 
           <Divider />
 
           <SectionTitle>{STRINGS.product.aboutItem}</SectionTitle>
-          <Description>{product?.description ?? STRINGS.common.unavailable}</Description>
+          <Description>{product.description}</Description>
 
           <AddToCartButton
-            disabled={isOutOfStock}
+            disabled={isButtonDisabled}
             onPress={() => {
               dispatch(addToCart(product));
             }}
           >
-            <ButtonText>{isOutOfStock ? STRINGS.product.outOfStock : STRINGS.product.addToCart}</ButtonText>
+            <ButtonText>{getButtonText()}</ButtonText>
           </AddToCartButton>
         </Content>
       </ScrollContainer>

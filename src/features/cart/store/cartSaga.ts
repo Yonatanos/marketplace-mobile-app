@@ -9,8 +9,7 @@ import { CheckoutServerCode, DEFAULT_CHECKOUT_ERROR, CHECKOUT_ERROR_MESSAGES } f
 import { PAGINATION, TIMING } from '@/constants/config';
 import { STRINGS } from '@/constants/strings';
 import { goBack } from '@/navigation/NavigationService';
-import { RootState } from '@/store/types';
-import { selectProducts, selectProductsState } from '@/features/products/store/productsSelectors';
+import { selectProducts } from '@/features/products/store/productsSelectors';
 
 function* handleCheckout() {
   try {

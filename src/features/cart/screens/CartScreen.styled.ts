@@ -7,7 +7,7 @@ const FOOTER_PADDING = 24;
 
 export const Footer = styled.View<{ bottomInset: number }>`
   padding: ${FOOTER_PADDING}px;
-  padding-bottom: ${props => FOOTER_PADDING + props.bottomInset}px;
+  padding-bottom: ${({ bottomInset }) => FOOTER_PADDING + bottomInset}px;
   background-color: ${COLORS.white};
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
